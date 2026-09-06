@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#faf9f5">
+  <title>TrackBox</title>
+  <style>
+    :root{--background:#faf9f5;--foreground:#3d3929;--card:#fff;--primary:#c96442;--primary-fg:#fff;--secondary:#e9e6dc;--muted:#ede9de;--muted-fg:#737168;--border:#dad9d4;--success:#347a53;--warning:#a15c22;--danger:#b33a3a;--radius:8px;color-scheme:light}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--background);color:var(--foreground);font-family:Inter,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+    button,a{font:inherit}.shell{width:min(960px,100%);margin:0 auto;padding:28px 20px 48px}header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}
+    h1{font-size:22px;line-height:1.2;margin:0 0 5px;letter-spacing:-.02em}.subtitle{margin:0;color:var(--muted-fg);font-size:13px}.badge{display:inline-flex;align-items:center;gap:7px;min-height:28px;padding:5px 10px;border:1px solid var(--border);border-radius:999px;background:var(--card);font-size:12px;font-weight:650;white-space:nowrap}.dot{width:7px;height:7px;border-radius:50%;background:var(--warning);box-shadow:0 0 0 3px #a15c2218}.badge.live .dot{background:var(--success);box-shadow:0 0 0 3px #347a5318}.badge.offline .dot{background:var(--danger);box-shadow:0 0 0 3px #b33a3a18}
+    .panel{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);box-shadow:0 1px 2px #3d39290a}.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(220px,.6fr);overflow:hidden;margin-bottom:14px}.hero-main{padding:24px;border-right:1px solid var(--border)}.eyebrow{margin:0 0 9px;color:var(--muted-fg);font-size:11px;font-weight:750;letter-spacing:.1em;text-transform:uppercase}.live-value{display:flex;align-items:baseline;gap:8px;margin:0 0 7px;font-size:44px;line-height:1;font-weight:700;letter-spacing:-.05em;font-variant-numeric:tabular-nums}.live-unit{font-size:13px;color:var(--muted-fg);font-weight:600;letter-spacing:0}.message{min-height:20px;margin:0;color:var(--muted-fg);font-size:14px;line-height:1.45}.hero-side{display:flex;flex-direction:column;justify-content:center;padding:24px}.hero-side strong{font-size:30px;line-height:1.1}.hero-side span{margin-top:6px;color:var(--muted-fg);font-size:12px}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px}.metric{min-width:0;padding:17px}.metric-label{margin:0 0 9px;color:var(--muted-fg);font-size:11px;font-weight:700}.metric-value{margin:0;font-variant-numeric:tabular-nums;font-size:20px;font-weight:650;overflow-wrap:anywhere}.metric-unit{margin-left:4px;color:var(--muted-fg);font-size:11px;font-weight:500}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px}.section-head h2{margin:0;font-size:15px}.button{border:1px solid var(--border);border-radius:6px;background:var(--background);color:var(--foreground);padding:8px 12px;font-size:12px;font-weight:650;cursor:pointer;text-decoration:none}.button:hover{background:var(--secondary)}.button.primary{border-color:var(--primary);background:var(--primary);color:var(--primary-fg)}.button.danger{border-color:#b33a3a55;color:var(--danger)}.button:disabled{opacity:.55;cursor:wait}
+    .activities{display:grid;gap:9px}.activity{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;width:100%;padding:14px;border:1px solid var(--border);border-radius:7px;background:var(--card);color:inherit;text-align:left;cursor:pointer}.activity:hover{background:#fffdf9}.activity-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--muted);font-size:18px}.activity-title{margin:0 0 5px;font-size:14px;font-weight:700}.activity-meta{margin:0;color:var(--muted-fg);font-size:12px}.activity-distance{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}.empty{padding:28px;text-align:center;color:var(--muted-fg);font-size:13px}
+    .detail{margin-top:22px;padding:18px}.detail[hidden]{display:none}.detail-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}.detail-stat{padding:12px;border-radius:6px;background:var(--background)}.detail-stat span{display:block;margin-bottom:6px;color:var(--muted-fg);font-size:11px}.detail-stat strong{font-size:16px;font-variant-numeric:tabular-nums}.route-wrap,.chart-wrap{overflow:hidden;border:1px solid var(--border);border-radius:7px;background:linear-gradient(#3d392908 1px,transparent 1px),linear-gradient(90deg,#3d392908 1px,transparent 1px),#fdfcf8;background-size:32px 32px}.route-wrap{aspect-ratio:2/1}.chart-wrap{height:180px;margin-top:12px;background:#fdfcf8}.route{display:block;width:100%;height:100%}.chart{display:block;width:100%;height:100%}.detail-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.footnote{margin:16px 0 0;color:var(--muted-fg);font-size:12px;line-height:1.5}
+    @media(max-width:680px){.shell{padding:20px 14px 34px}.hero{grid-template-columns:1fr}.hero-main{border-right:0;border-bottom:1px solid var(--border)}.hero-side{padding:18px 24px}.grid,.detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.live-value{font-size:38px}.activity{grid-template-columns:auto minmax(0,1fr)}.activity-distance{grid-column:2}.detail{padding:14px}}
+    @media(max-width:380px){header{align-items:stretch;flex-direction:column}.badge{align-self:flex-start}.detail-actions{display:grid;grid-template-columns:1fr 1fr}.detail-actions .button{text-align:center}.live-value{font-size:34px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div><h1>TrackBox</h1><p class="subtitle">骑行 / 跑步轨迹记录器</p></div>
+      <div id="connection" class="badge" role="status" aria-live="polite"><span class="dot"></span><span id="connectionText">正在连接</span></div>
+    </header>
+
+    <section class="panel hero" aria-label="实时运动状态">
+      <div class="hero-main">
+        <p id="liveLabel" class="eyebrow">当前速度</p>
+        <p class="live-value"><span id="liveValue">—</span><span id="liveUnit" class="live-unit">km/h</span></p>
+        <p id="message" class="message">正在读取 GPS 状态…</p>
+      </div>
+      <div class="hero-side"><strong id="liveDistance">0.00 km</strong><span>当前活动距离</span></div>
+    </section>
+
+    <section class="grid" aria-label="实时统计">
+      <article class="panel metric"><p class="metric-label">运动时间</p><p class="metric-value" id="elapsed">00:00</p></article>
+      <article class="panel metric"><p class="metric-label">平均速度</p><p class="metric-value"><span id="average">0.0</span><span class="metric-unit" id="averageUnit">km/h</span></p></article>
+      <article class="panel metric"><p class="metric-label">卫星 / HDOP</p><p class="metric-value"><span id="satellites">0</span><span class="metric-unit" id="hdop">—</span></p></article>
+      <article class="panel metric"><p class="metric-label">海拔</p><p class="metric-value"><span id="altitude">—</span><span class="metric-unit">m</span></p></article>
+    </section>
+
+    <div class="section-head"><h2>活动记录</h2><button id="refresh" class="button" type="button">刷新</button></div>
+    <section id="activities" class="activities" aria-live="polite"><div class="panel empty">正在读取活动记录…</div></section>
+
+    <section id="activityDetail" class="panel detail" hidden>
+      <div class="section-head"><h2 id="detailTitle">活动详情</h2><button id="closeDetail" class="button" type="button">关闭</button></div>
+      <div class="detail-grid">
+        <div class="detail-stat"><span>距离</span><strong id="detailDistance">—</strong></div>
+        <div class="detail-stat"><span>时间</span><strong id="detailElapsed">—</strong></div>
+        <div class="detail-stat"><span>平均</span><strong id="detailAverage">—</strong></div>
+        <div class="detail-stat"><span>最高速度</span><strong id="detailMax">—</strong></div>
+      </div>
+      <div class="route-wrap"><svg id="route" class="route" viewBox="0 0 800 400" role="img" aria-label="运动轨迹"></svg></div>
+      <div class="chart-wrap"><canvas id="speedChart" class="chart" aria-label="速度曲线"></canvas></div>
+      <div class="detail-actions">
+        <a id="downloadCsv" class="button primary" href="#" download>下载 CSV</a>
+        <a id="downloadGpx" class="button" href="#" download>下载 GPX</a>
+        <button id="deleteActivity" class="button danger" type="button">删除活动</button>
+      </div>
+      <p class="footnote">轨迹和曲线完全由设备本地数据绘制，不依赖互联网地图。</p>
+    </section>
+  </main>
+
+  <script>
+    const $=id=>document.getElementById(id);let polling=false,currentActivityId=null;
+    function clock(seconds){seconds=Math.max(0,Number(seconds)||0);const h=Math.floor(seconds/3600),m=Math.floor(seconds%3600/60),s=Math.floor(seconds%60);return h?`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
+    function pace(seconds){seconds=Math.round(Number(seconds)||0);return seconds>0&&seconds<6000?`${Math.floor(seconds/60)}'${String(seconds%60).padStart(2,'0')}\"`:'—'}
+    function dateText(value){const date=new Date(value);return Number.isNaN(date.getTime())?value:date.toLocaleString([], {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
+    function setConnection(kind,text){$('connection').className=`badge ${kind}`;$('connectionText').textContent=text}
+    function renderStatus(data){const live=Boolean(data.gpsValid),running=data.mode==='running';setConnection(live?'live':'offline',live?`GPS ${data.satellites} 星`:'GPS 搜星中');$('liveLabel').textContent=running?'当前配速':'当前速度';$('liveValue').textContent=running?pace(data.currentPaceSecondsPerKm):(Number(data.currentSpeedKmh)||0).toFixed(1);$('liveUnit').textContent=running?'每公里':'km/h';$('liveDistance').textContent=`${((Number(data.distanceM)||0)/1000).toFixed(2)} km`;$('elapsed').textContent=clock(data.elapsedSeconds);$('average').textContent=running?pace(data.averagePaceSecondsPerKm):(Number(data.averageSpeedKmh)||0).toFixed(1);$('averageUnit').textContent=running?'每公里':'km/h';$('satellites').textContent=data.satellites;$('hdop').textContent=`/ ${Number(data.hdop).toFixed(1)}`;$('altitude').textContent=live?Number(data.altitudeM).toFixed(1):'—';const labels={ready:'可以开始',recording:'正在记录',paused:'已暂停',finished:'已保存'};$('message').textContent=!live?'请把天线朝向室外天空':`${labels[data.state]||data.state} · ${running?'跑步':'骑行'} · ${data.wifiSsid}`}
+    async function pollStatus(){if(polling)return;polling=true;try{const response=await fetch('/api/status',{cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);renderStatus(await response.json())}catch(error){setConnection('offline','连接中断');$('message').textContent='页面保留最后状态，正在重连设备…'}finally{polling=false}}
+    function activityButton(item){const button=document.createElement('button');button.type='button';button.className='activity';button.innerHTML=`<span class="activity-icon">${item.mode==='running'?'跑':'骑'}</span><span><p class="activity-title">${item.mode==='running'?'跑步':'骑行'} · ${dateText(item.startedAt)}</p><p class="activity-meta">${clock(item.elapsedSeconds)} · 平均 ${item.mode==='running'?pace(item.elapsedSeconds/(item.distanceM/1000)):`${Number(item.averageSpeedKmh).toFixed(1)} km/h`}</p></span><span class="activity-distance">${(item.distanceM/1000).toFixed(2)} km</span>`;button.addEventListener('click',()=>openActivity(item.id));return button}
+    async function loadActivities(){const host=$('activities');try{const response=await fetch('/api/activities',{cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);const items=await response.json();host.replaceChildren();if(!items.length){host.innerHTML='<div class="panel empty">还没有已保存的活动</div>';return}for(const item of items)host.append(activityButton(item))}catch(error){host.innerHTML='<div class="panel empty">活动列表读取失败，请检查设备连接</div>'}}
+    function drawRoute(points){const svg=$('route');svg.replaceChildren();if(!points.length){svg.innerHTML='<text x="400" y="205" text-anchor="middle" fill="#737168" font-size="16">没有有效轨迹点</text>';return}const lats=points.map(p=>p[0]),lons=points.map(p=>p[1]),minLat=Math.min(...lats),maxLat=Math.max(...lats),minLon=Math.min(...lons),maxLon=Math.max(...lons),latSpan=Math.max(maxLat-minLat,.00001),lonSpan=Math.max(maxLon-minLon,.00001);const xy=points.map(p=>[20+(p[1]-minLon)/lonSpan*760,380-(p[0]-minLat)/latSpan*360]);const ns='http://www.w3.org/2000/svg',line=document.createElementNS(ns,'polyline');line.setAttribute('points',xy.map(p=>p.join(',')).join(' '));line.setAttribute('fill','none');line.setAttribute('stroke','#c96442');line.setAttribute('stroke-width','5');line.setAttribute('stroke-linecap','round');line.setAttribute('stroke-linejoin','round');svg.append(line);for(const [position,color,label] of [[xy[0],'#347a53','起'],[xy.at(-1),'#b33a3a','终']]){const circle=document.createElementNS(ns,'circle');circle.setAttribute('cx',position[0]);circle.setAttribute('cy',position[1]);circle.setAttribute('r','9');circle.setAttribute('fill',color);svg.append(circle);const text=document.createElementNS(ns,'text');text.setAttribute('x',position[0]);text.setAttribute('y',position[1]-14);text.setAttribute('text-anchor','middle');text.setAttribute('fill','#3d3929');text.setAttribute('font-size','13');text.textContent=label;svg.append(text)}}
+    function drawChart(points){const canvas=$('speedChart'),ratio=devicePixelRatio||1,box=canvas.getBoundingClientRect();canvas.width=Math.max(1,box.width*ratio);canvas.height=Math.max(1,box.height*ratio);const context=canvas.getContext('2d');context.scale(ratio,ratio);const width=box.width,height=box.height,values=points.map(p=>Number(p[2])||0),max=Math.max(10,...values);context.clearRect(0,0,width,height);context.strokeStyle='#dad9d4';context.lineWidth=1;for(let i=1;i<4;i++){const y=i*height/4;context.beginPath();context.moveTo(0,y);context.lineTo(width,y);context.stroke()}if(!values.length)return;context.strokeStyle='#c96442';context.lineWidth=2;context.beginPath();values.forEach((value,index)=>{const x=values.length===1?0:index/(values.length-1)*width,y=height-8-value/max*(height-16);index?context.lineTo(x,y):context.moveTo(x,y)});context.stroke()}
+    async function openActivity(id){try{const response=await fetch(`/api/activity?id=${encodeURIComponent(id)}`,{cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);const data=await response.json(),item=data.summary;currentActivityId=id;$('detailTitle').textContent=`${item.mode==='running'?'跑步':'骑行'} · ${dateText(item.startedAt)}`;$('detailDistance').textContent=`${(item.distanceM/1000).toFixed(2)} km`;$('detailElapsed').textContent=clock(item.elapsedSeconds);$('detailAverage').textContent=item.mode==='running'?`${pace(item.elapsedSeconds/(item.distanceM/1000))} /km`:`${Number(item.averageSpeedKmh).toFixed(1)} km/h`;$('detailMax').textContent=`${Number(item.maxSpeedKmh).toFixed(1)} km/h`;$('downloadCsv').href=`/api/download?id=${id}&format=csv`;$('downloadGpx').href=`/api/download?id=${id}&format=gpx`;drawRoute(data.points||[]);$('activityDetail').hidden=false;requestAnimationFrame(()=>drawChart(data.points||[]));$('activityDetail').scrollIntoView({behavior:'smooth',block:'start'})}catch(error){alert('活动详情读取失败，请重试')}}
+    $('closeDetail').addEventListener('click',()=>{$('activityDetail').hidden=true;currentActivityId=null});$('refresh').addEventListener('click',loadActivities);$('deleteActivity').addEventListener('click',async()=>{if(currentActivityId===null||!confirm('确定删除这条活动？删除后无法从设备恢复。'))return;const response=await fetch(`/api/activity?id=${encodeURIComponent(currentActivityId)}`,{method:'DELETE'});if(!response.ok){alert('删除失败');return}$('activityDetail').hidden=true;currentActivityId=null;await loadActivities()});
+    pollStatus();loadActivities();setInterval(pollStatus,1000);setInterval(loadActivities,10000);
+  </script>
+</body>
+</html>

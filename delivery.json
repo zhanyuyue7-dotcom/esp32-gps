@@ -1,0 +1,31 @@
+{
+  "name": "esp32-gps",
+  "version": "delivery-20260906",
+  "chip": "esp32s3",
+  "idf_version": "5.5.3",
+  "flash_size": "16MB",
+  "app_built_at": "2026-09-03T12:08:04+08:00",
+  "evidence": {
+    "source": "latest local build BIN and matching successful flash log",
+    "flash_log": "idf_py_stdout_output_29332",
+    "hardware_retested_this_delivery": false,
+    "ci_rebuild_replaces_snapshot": false
+  },
+  "files": [
+    {
+      "path": "firmware/bootloader.bin",
+      "offset": 0,
+      "sha256": "963a86a059f0141ac9d4b2f2175d1902da013e9a993152a60bd717c4a2c52bd4"
+    },
+    {
+      "path": "firmware/partition-table.bin",
+      "offset": 32768,
+      "sha256": "d2fab13962b10dd860add964884f65712787b4279852ddda935d8b625e9997d7"
+    },
+    {
+      "path": "firmware/gps_trackbox.bin",
+      "offset": 65536,
+      "sha256": "2eb3dd373912ce4b5c7e3fc651f5fc75a05ce298a9ea234a97a1ad397fd69e66"
+    }
+  ]
+}

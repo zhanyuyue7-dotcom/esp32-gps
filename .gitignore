@@ -1,0 +1,14 @@
+build*/
+dist/
+output/
+.delivery-backup/
+.vscode/
+.playwright-cli/
+__pycache__/
+*.pyc
+sdkconfig
+sdkconfig.old
+.env
+.env.*
+*.log
+*.zip

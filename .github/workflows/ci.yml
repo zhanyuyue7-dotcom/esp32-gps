@@ -1,0 +1,57 @@
+name: Firmware CI and delivery
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test delivery packaging
+        run: python -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Build host tests
+        run: |
+          cmake -S host -B build-host -G Ninja
+          cmake --build build-host
+      - name: Run host tests
+        run: ctest --test-dir build-host --output-on-failure
+
+  firmware-and-delivery:
+    needs: host-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source builds with ESP-IDF 5.5.3
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.5.3
+          target: esp32s3
+          path: '.'
+          command: idf.py build
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Package SHA256-locked previously flashed firmware
+        run: python scripts/package_delivery.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firmware-delivery
+          path: dist/*-delivery-20260906.zip
+          if-no-files-found: error
+          retention-days: 90
+
